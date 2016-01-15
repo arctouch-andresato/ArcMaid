@@ -5,7 +5,7 @@ var timeoutmilliseconds = 15000;
 var request = require('sync-request');
 var sleep = require('sleep');
 var statusasync = function(callback){
-	console.log('command: status');
+	console.log('returntimestring() + command: status');
 	var requestasync = require('request');
 	var statusResponse = 'test';
 	requestasync('http://'+deviceIP+'/roomba/status', function (error, response, body) {
@@ -21,35 +21,33 @@ var statusasync = function(callback){
 }
 
 var status = function(){
-	console.log('command: status');
+	console.log(returntimestring() + 'command: status');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 			var res = request('GET', 'http://'+deviceIP+'/status.json',
 			//var res = request('GET', 'http://services.groupkt.com/country/search?text=bra',
 				{'timeout':timeoutmilliseconds});
-			console.log('command: status called');
 			console.log(res.getBody());
 			i=retries;
 			return JSON.parse(res.getBody());
 		}catch(err)
 		{
-			console.log('Error:'+ err + ' - retry:' + i)
+			console.log(returntimestring() + 'Error:'+ err + ' - retry:' + i)
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 	
 	
 
 }
 
 var fullstatus = function(){
-	console.log('command: fullstatus');
+	console.log(returntimestring() + 'command: fullstatus');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 	var res = request('GET', 'http://'+deviceIP+'/full_status.json',
 				{'timeout':timeoutmilliseconds});
-			console.log('command: status called');
 			console.log(res.getBody());
 			i=retries;
 			return JSON.parse(res.getBody());
@@ -59,78 +57,74 @@ var fullstatus = function(){
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 
 
 }
 
 var clean = function(){
-	console.log('command: clean');
+	console.log(returntimestring() + 'command: clean');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 	var res = request('GET', 'http://'+deviceIP+'/command.json?command=clean',
 				{'timeout':timeoutmilliseconds});
-			console.log('command: status called');
 			console.log(res.getBody());
 			i=retries;
 			return JSON.parse(res.getBody());
 		}catch(err)
 		{
-			console.log('Error:'+ err + ' - retry:' + i)
+			console.log(returntimestring() + 'Error:'+ err + ' - retry:' + i)
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 
 }
 
 var stop = function(){
-	console.log('command: status');
+	console.log(returntimestring() + 'command: status');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 	var res = request('GET', 'http://'+deviceIP+'/command.json?command=drivestop',
 				{'timeout':timeoutmilliseconds});
-			console.log('command: status called');
 			console.log(res.getBody());
 			i=retries;
 			return JSON.parse(res.getBody());
 		}catch(err)
 		{
-			console.log('Error:'+ err + ' - retry:' + i)
+			console.log(returntimestring() + 'Error:'+ err + ' - retry:' + i)
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 
 }
 
 var dock = function(){
-	console.log('command: dock');
+	console.log(returntimestring() + 'command: dock');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 	var res = request('GET', 'http://'+deviceIP+'/command.json?command=dock',
 				{'timeout':timeoutmilliseconds});
-			console.log('command: status called');
 			console.log(res.getBody());
 			i=retries;
 			return JSON.parse(res.getBody());
 		}catch(err)
 		{
-			console.log('Error:'+ err + ' - retry:' + i)
+			console.log(returntimestring() + 'Error:'+ err + ' - retry:' + i)
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 
 }
 
 var findme = function(){
-	console.log('command: findme');
+	console.log(returntimestring() + 'command: findme');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 	var res = request('GET', 'http://'+deviceIP+'/command.json?command=find_me',
 				{'timeout':timeoutmilliseconds});
-			console.log('command: status called');
 			console.log(res.getBody());
 			i=retries;
 			return JSON.parse(res.getBody());
@@ -140,12 +134,12 @@ var findme = function(){
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 
 }
 
 var driveright = function(){
-	console.log('command: driveright');
+	console.log(returntimestring() + 'command: driveright');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 	var res = request('GET', 'http://'+deviceIP+'/command.json?command=driveright',
@@ -156,20 +150,19 @@ var driveright = function(){
 			return JSON.parse(res.getBody());
 		}catch(err)
 		{
-			console.log('Error:'+ err + ' - retry:' + i)
+			console.log(returntimestring() + 'Error:'+ err + ' - retry:' + i)
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 }
 
 var driveleft = function(){
-	console.log('command: driveleft');
+	console.log(returntimestring() + 'command: driveleft');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 	var res = request('GET', 'http://'+deviceIP+'/command.json?command=driveleft',
 				{'timeout':timeoutmilliseconds});
-			console.log('command: status called');
 			console.log(res.getBody());
 			i=retries;
 			return JSON.parse(res.getBody());
@@ -179,11 +172,11 @@ var driveleft = function(){
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 }
 
 var spinright = function(){
-	console.log('command: spinright');
+	console.log(returntimestring() + 'command: spinright');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 	var res = request('GET', 'http://'+deviceIP+'/command.json?command=spinright',
@@ -198,22 +191,21 @@ var spinright = function(){
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 }
 
 var spinleft = function(){
-	console.log('command: spinleft');
+	console.log(returntimestring() + 'command: spinleft');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 			var res = request('GET', 'http://'+deviceIP+'/command.json?command=spinleft',
 						{'timeout':timeoutmilliseconds});
-			console.log('command: status called');
 			console.log(res.getBody());
 			i=retries;
 			return JSON.parse(res.getBody());
 		}catch(err)
 		{
-			console.log('Error:'+ err + ' - retry:' + i)
+			console.log(returntimestring() + 'Error:'+ err + ' - retry:' + i)
 		}
 	};
 
@@ -221,27 +213,26 @@ var spinleft = function(){
 }
 
 var driveonly = function(speed,degrees){
-	console.log('command: driveonly');
+	console.log(returntimestring() + 'command: driveonly');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 			var res = request('GET', 'http://'+deviceIP+'/command.json?command=drive_only' +
 				'&degrees=' + degrees + '&speed=' + speed,
 						{'timeout':timeoutmilliseconds});
-			console.log('command: status called');
 			console.log(res.getBody());
 			i=retries;
 			return JSON.parse(res.getBody());
 		}catch(err)
 		{
-			console.log('Error:'+ err + ' - retry:' + i)
+			console.log(returntimestring() + 'Error:'+ err + ' - retry:' + i)
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 }
 
 var leavehomebase = function(){
-	console.log('command: leavehomebase');
+	console.log(returntimestring() + 'command: leavehomebase');
 	for (var i = retries - 1; i >= 0; i--) {
 		try{
 			var res = request('GET', 'http://'+deviceIP+'/command.json?command=leavehomebase',
@@ -251,11 +242,11 @@ var leavehomebase = function(){
 			return JSON.parse(res.getBody());
 		}catch(err)
 		{
-			console.log('Error:'+ err + ' - retry:' + i)
+			console.log(returntimestring() + 'Error:'+ err + ' - retry:' + i)
 		}
 	};
 
-	throw new Error('Number of retries exceeded:' + retries);
+	throw new Error(returntimestring() + 'Number of retries exceeded:' + retries);
 }
 
 var leavedock = function(){
@@ -264,11 +255,11 @@ var leavedock = function(){
 	leavehomebase();
 	sleep.sleep(5);
 	spinright();
-	console.log('leavedock end');
+	console.log(returntimestring() + 'leavedock end');
 }
 
 var loopright = function(looptimes){
-	console.log('loopright start');
+	console.log(returntimestring() + 'loopright start');
 	leavedock();
 	sleep.sleep(5);
 	spinright();
@@ -277,16 +268,16 @@ var loopright = function(looptimes){
 }
 
 var resumeloopright = function(looptimes){
-	console.log('resumeloopright start');
+	console.log(returntimestring() + 'resumeloopright start');
 	for (var i = looptimes; i >= 0; i--) {
-		console.log('********************  Loop #' + (looptimes-i) + '  ********************');
-		waitAndDetectBump(4,100);
+		console.log(returntimestring() + '********************  Loop #' + (looptimes-i) + '  ********************');
+		waitAndDetectBump(2,100);
 		
 		status = fullstatus();
 		
 		if(status.sensors.near_homebase ==1 && (i*2)<looptimes)
 		{
-			console.log('Home base detected, returning to dock...');
+			console.log(returntimestring() + 'Home base detected, returning to dock...');
 			dockprocedure();
 			i=0;
 		}
@@ -298,7 +289,7 @@ var resumeloopright = function(looptimes){
 var waitAndDetectBump = function(loops, milliseconds){
 	for (var i = loops - 1; i >= 0; i--) {
 		var status = fullstatus();
-		console.log('bumper_state:[' + status.sensors.bumper_state +
+		console.log(returntimestring() + 'bumper_state:[' + status.sensors.bumper_state +
 			'] light_bump:[' + status.sensors.light_bump + ']');
 		if(status.sensors.bumper_state == 1 ||
 			status.sensors.light_bump ==1)
@@ -311,7 +302,7 @@ var waitAndDetectBump = function(loops, milliseconds){
 }
 
 var dockprocedure = function(){
-	console.log('dockprocedure');
+	console.log(returntimestring() + 'dockprocedure');
 	spinleft();
 	sleep.sleep(1);
 	driveright();
@@ -320,7 +311,7 @@ var dockprocedure = function(){
 }
 
 var managebumps = function(direction){
-	console.log('Mange bumps start');
+	console.log(returntimestring() + 'Mange bumps start');
 	var bump = true;
 	while(bump)
 	{
@@ -340,9 +331,15 @@ var managebumps = function(direction){
 
 		}else{
 			bump=false;
-			console.log('Manage to leave bump');
+			console.log(returntimestring() + 'Manage to leave bump');
 		}
 	}
+}
+
+var returntimestring = function(){
+	return new Date().toISOString().
+  replace(/T/, ' ').      // replace T with a space
+  replace(/\..+/, '') + " - ";
 }
 
 exports.status = status;
