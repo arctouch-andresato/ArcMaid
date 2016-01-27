@@ -4,7 +4,7 @@ var router = express.Router();
 var inuse = false;
 
 /* GET users listing. */
-router.get('/status', function(req, res, next) {
+router.get('/', function(req, res, next) {
 	var jsonObj = {'status':'OK'};
   res.send(JSON.stringify(jsonObj));
   console.log('status : ' + JSON.stringify(jsonObj));
@@ -49,7 +49,7 @@ router.get('/loopright', function(req, res, next) {
 
 router.get('/resumeloopright', function(req, res, next) {
   console.log('resumeloopright method called');
-  client.resumeloopright(300);  
+  client.resumeloopright(3000);  
   console.log('resumeloopright complete:' + JSON.stringify(status));
 });
 

@@ -1,21 +1,23 @@
 var deviceIP = '192.168.49.105';
-//var deviceIP = 'localhost:8080';
+
+//var deviceIP = '192.168.1.15';
 var retries = 4;
 var timeoutmilliseconds = 15000;
 var request = require('sync-request');
 var sleep = require('sleep');
 var statusasync = function(callback){
-	console.log('returntimestring() + command: status');
+	console.log(returntimestring() + 'command: status');
 	var requestasync = require('request');
 	var statusResponse = 'test';
-	requestasync('http://'+deviceIP+'/roomba/status', function (error, response, body) {
-	    if (!error && response.statusCode == 200) {
+	requestasync('http://'+deviceIP+'/status.json', function (error, response, body) {
+		console.log(response);
+	    if (!error && response.status == 200) {
 	        var statusResponse = JSON.parse(body);
 	        console.log('Status received:' + body);
 	        callback(null,statusResponse);
 	     }
 	     else{
-	     	console.log(response.statusCode);
+	     	console.log(response.status);
 	     }
 	})		
 }
@@ -250,10 +252,18 @@ var leavehomebase = function(){
 }
 
 var leavedock = function(){
-	//console.log('leavedock start');
+	console.log(returntimestring() + 'leavedock start');
 	//driveonly(-300,180);
 	leavehomebase();
 	sleep.sleep(5);
+	var status = fullstatus();
+	while(status.power_status.current >0)
+	{
+		console.log(returntimestring() + 'could not leavedock:' + status.power_status.current);
+		leavehomebase();
+		sleep.sleep(5);
+		status = fullstatus();
+	}
 	spinright();
 	console.log(returntimestring() + 'leavedock end');
 }
@@ -271,18 +281,23 @@ var resumeloopright = function(looptimes){
 	console.log(returntimestring() + 'resumeloopright start');
 	for (var i = looptimes; i >= 0; i--) {
 		console.log(returntimestring() + '********************  Loop #' + (looptimes-i) + '  ********************');
-		waitAndDetectBump(2,100);
+		waitAndDetectBump(2,200);
 		
 		status = fullstatus();
 		
-		if(status.sensors.near_homebase ==1 && (i*2)<looptimes)
+		//disable the return to dock feature
+		if(status.sensors.near_homebase == 1 && status.power_status.battery_charge < 15)
 		{
-			console.log(returntimestring() + 'Home base detected, returning to dock...');
+			console.log(returntimestring() + 'Low power and home base detected, returning to dock...');
 			dockprocedure();
 			i=0;
 		}
+		else
+		{
+			driveonly(200,30);
+		}
 
-		driveonly(200,30);
+		
 	};
 }
 
@@ -294,7 +309,8 @@ var waitAndDetectBump = function(loops, milliseconds){
 		if(status.sensors.bumper_state == 1 ||
 			status.sensors.light_bump ==1)
 		{
-			managebumps('left');
+stop();
+			managebumps('left',status);
 			return;
 		}
 		sleep.usleep(milliseconds*1000);
@@ -310,12 +326,12 @@ var dockprocedure = function(){
 	dock();
 }
 
-var managebumps = function(direction){
+var managebumps = function(direction,status){
 	console.log(returntimestring() + 'Mange bumps start');
 	var bump = true;
 	while(bump)
 	{
-		var status = fullstatus();
+		//var 
 		if(status.sensors.bumper_state == 1 ||
 			status.sensors.light_bump ==1)
 		{
@@ -326,8 +342,10 @@ var managebumps = function(direction){
 				spinright();
 			}
 
+
 			sleep.sleep(1);
 			stop();
+			status = fullstatus();
 
 		}else{
 			bump=false;
@@ -337,9 +355,10 @@ var managebumps = function(direction){
 }
 
 var returntimestring = function(){
-	return new Date().toISOString().
+	var time = new Date();
+	return time.toISOString()
   replace(/T/, ' ').      // replace T with a space
-  replace(/\..+/, '') + " - ";
+  replace(/\..+/, '') + "." + time.getMilliseconds() + " - ";
 }
 
 exports.status = status;
